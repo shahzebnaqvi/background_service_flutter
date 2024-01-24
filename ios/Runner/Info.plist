@@ -49,5 +49,9 @@
 	<array>
 		<string>dev.flutter.background.refresh</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+	<string>audio</string>
+	</array>
 </dict>
 </plist>
