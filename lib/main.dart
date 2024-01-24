@@ -8,7 +8,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeService();
@@ -144,7 +144,7 @@ void onStart(ServiceInstance service) async {
         );
       }
     }
-
+fetchData();
     /// you can see this log in logcat
     print('FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
 
@@ -246,7 +246,7 @@ class _MyAppState extends State<MyApp> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {fetchData();},
           child: const Icon(Icons.play_arrow),
         ),
       ),
@@ -294,4 +294,14 @@ class _LogViewState extends State<LogView> {
       },
     );
   }
-}
+}Future<String> fetchData() async {
+    final response = await http.get(Uri.parse('https://primetrader.pk/new/'));
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      print(response.statusCode);
+      return response.body;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
